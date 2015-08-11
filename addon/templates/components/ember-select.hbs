@@ -1,0 +1,26 @@
+<div class="selectize-input items {{if isFull "full" "not-full"}} {{if hasOptions "has-options"}} {{if hasItems "has-items"}} {{if isFocused "input-active"}} {{if dropdownOpen "dropdown-active"}}" {{action "controlClick" on="mouseDown"}}>
+  {{#if selection}}
+    {{#if multiple}}
+      {{#each selection as |item|}}
+        <div class="item" data-value>
+          {{item}}
+          <a href="#" class="remove" tabindex="-1" title="Remove" {{action "deselect" item on="mouseDown" bubbles=false}}>×</a>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="item">{{selection}}</div>
+    {{/if}}
+  {{/if}}
+  {{input placeholder=placeholderIfEmpty autocomplete="off" tabindex="-1" disabled=disabled
+    focus-out="inputBlur" key-down="inputKeyPress" value=filterText}}
+</div>
+{{#if dropdownOpen}}
+  <div class="selectize-dropdown {{if multiple "multi" "single"}}" style={{dropdownStyle}}>
+    <div class="selectize-dropdown-content">
+      {{#each filteredOptions as |option index|}}
+        {{ember-select-option option=option index=index activeIndex=activeIndex highlight=filterText
+          select="select" option-hover="optionHover"}}
+      {{/each}}
+    </div>
+  </div>
+{{/if}}
