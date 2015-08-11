@@ -40,7 +40,7 @@ export default Ember.Component.extend({
     let notSelectedOptions = this.get('notSelectedOptions');
     let filterText = this.get('filterText');
     if (Ember.isPresent(filterText)) {
-      return Ember.A(notSelectedOptions.filter(item => item.indexOf(filterText) !== -1));
+      return Ember.A(notSelectedOptions.filter(item => item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1));
     } else {
       return Ember.A(notSelectedOptions);
     }
@@ -81,6 +81,9 @@ export default Ember.Component.extend({
     return new Ember.Handlebars.SafeString(`width: ${control.outerWidth()}px; top: ${offset.top}px; left: ${offset.left}px;`);
   }).volatile(),
 
+  dropdownOpen: false,
+  dropdownActive: Ember.computed.and('hasOptions', 'dropdownOpen'),
+
   //use setter to bound values between 0 and length
   activeIndex: Ember.computed('filteredOptions.length', {
     get() {
@@ -100,11 +103,12 @@ export default Ember.Component.extend({
   close() {
     if (this.get('dropdownOpen')) {
       this.set('dropdownOpen', false);
+      this.set('filterText', '');
     }
   },
 
   open() {
-    if (!this.get('dropdownOpen') && !this.get('isFull') && this.get('hasOptions')) {
+    if (!this.get('dropdownOpen') && this.get('hasOptions')) {
       this.set('dropdownOpen', true);
       this.set('activeIndex', 0);
     }
@@ -151,7 +155,6 @@ export default Ember.Component.extend({
   actions: {
 
     controlClick() {
-      console.log('controlClick');
       this.toggle();
       this.focusInput();
     },
@@ -182,7 +185,6 @@ export default Ember.Component.extend({
     },
 
     inputFocus() {
-      console.log('inputFocus');
       this.set('isFocused', true);
       if (this.get('filteredOptions.length') > 0) {
         this.open();
@@ -190,7 +192,6 @@ export default Ember.Component.extend({
     },
 
     inputBlur() {
-      console.log('inputBlur');
       if (this.ignoreBlur) {
         this.ignoreBlur = false;
         this.focusInput();

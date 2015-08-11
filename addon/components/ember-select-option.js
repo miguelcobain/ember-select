@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   attributeBindings: ['dataSelectable:data-selectable'],
   dataSelectable: true,
 
-  label: Ember.computed('option', function() {
+  label: Ember.computed('option', 'regExp', function() {
     let option = this.get('option');
     let regExp = this.get('regExp');
     let html = option.replace(regExp, '<span class="highlight">$&</span>');
@@ -17,7 +17,7 @@ export default Ember.Component.extend({
 
   regExp: Ember.computed('highlight', function() {
     let highlight = this.get('highlight');
-    return new RegExp(highlight);
+    return new RegExp(highlight, 'ig');
   }),
 
   active: Ember.computed('activeIndex', 'index', function() {

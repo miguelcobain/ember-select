@@ -1,4 +1,4 @@
-<div class="selectize-input items {{if isFull "full" "not-full"}} {{if hasOptions "has-options"}} {{if hasItems "has-items"}} {{if isFocused "input-active"}} {{if dropdownOpen "dropdown-active"}}" {{action "controlClick" on="mouseDown"}}>
+<div class="selectize-input items {{if isFull "full" "not-full"}} {{if hasOptions "has-options"}} {{if hasItems "has-items"}} {{if isFocused "input-active"}} {{if dropdownActive "dropdown-active"}}" {{action "controlClick" on="mouseDown"}}>
   {{#if selection}}
     {{#if multiple}}
       {{#each selection as |item|}}
@@ -14,7 +14,7 @@
   {{input placeholder=placeholderIfEmpty autocomplete="off" tabindex="-1" disabled=disabled
     focus-out="inputBlur" key-down="inputKeyPress" value=filterText}}
 </div>
-{{#if dropdownOpen}}
+{{#if dropdownActive}}
   <div class="selectize-dropdown {{if multiple "multi" "single"}}" style={{dropdownStyle}}>
     <div class="selectize-dropdown-content">
       {{#each filteredOptions as |option index|}}
